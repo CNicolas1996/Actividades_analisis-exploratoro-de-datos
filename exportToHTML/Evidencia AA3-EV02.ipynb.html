@@ -1,0 +1,233 @@
+<html>
+<head>
+<title>Evidencia AA3-EV02.ipynb</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #808080;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #cc7832;}
+.s3 { color: #6a8759;}
+.s4 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Evidencia AA3-EV02.ipynb</font>
+</center></td></tr></table>
+<pre><span class="s0">#%% md 
+</span><span class="s1"># Presetnacion Evidencia AA3-EV02  
+## Carlos Nicolas Lopez Cortes 
+ 
+El presente notebookc contiene el procesos ejecutado y explicado de imporacion, limpieza y exploracion de datos requerido en el Estudio de caso: análisis exploratorio de datos. 
+</span><span class="s0">#%% 
+</span><span class="s2">import </span><span class="s1">pandas </span><span class="s2">as </span><span class="s1">pd</span>
+<span class="s2">import </span><span class="s1">numpy </span><span class="s2">as </span><span class="s1">np</span>
+<span class="s2">import </span><span class="s1">matplotlib.pyplot </span><span class="s2">as </span><span class="s1">plt</span>
+<span class="s2">import </span><span class="s1">seaborn </span><span class="s2">as </span><span class="s1">sns</span>
+<span class="s0">#%% md 
+</span><span class="s1">##  Importacion de los datos         
+</span><span class="s0">#%% 
+</span><span class="s1">df = pd.read_csv(</span><span class="s3">'C:</span><span class="s2">\\</span><span class="s3">Users</span><span class="s2">\\</span><span class="s3">moonw</span><span class="s2">\\</span><span class="s3">Documents</span><span class="s2">\\</span><span class="s3">Sena</span><span class="s2">\\</span><span class="s3">Analisis exploratorio de datos Python</span><span class="s2">\\</span><span class="s3">Actividades y ajercicios</span><span class="s2">\\</span><span class="s3">Ejercicios 3</span><span class="s2">\\</span><span class="s3">Anexos</span><span class="s2">\\</span><span class="s3">Data_Caso_Propuesto.csv'</span><span class="s1">)</span>
+<span class="s1">df</span>
+<span class="s0">#%% md 
+</span>
+<span class="s0">#%% md 
+</span><span class="s1">## Pregunta objetivo 
+ 
+Teniendo en cuenta el tipo de datos presente en la base de datos **Inmuebles Disponibles Para La Venta** La pregunta planteada es: 
+ 
+* ¿Cuales son las caracteristicas y relaciones que influyen en el precio? 
+ 
+</span><span class="s0">#%% md 
+</span><span class="s1">### Exploracion de los datos 
+</span><span class="s0">#%% 
+</span><span class="s1">df.groupby(</span><span class="s3">'Detalle Disponibilidad'</span><span class="s1">)[</span><span class="s3">'Detalle Disponibilidad'</span><span class="s1">].count()</span>
+<span class="s0">#%% md 
+</span>
+<span class="s0">#%% 
+</span><span class="s1">df.info()</span>
+<span class="s0">#%% 
+</span><span class="s1">print(</span><span class="s3">f'El total de los registros es: </span><span class="s2">{</span><span class="s1">df.shape[</span><span class="s4">0</span><span class="s1">]</span><span class="s2">}</span><span class="s3">'</span><span class="s2">, </span><span class="s3">f'</span><span class="s2">\n\n</span><span class="s3">y elt total de columnas es: </span><span class="s2">{</span><span class="s1">df.shape[</span><span class="s4">1</span><span class="s1">]</span><span class="s2">}</span><span class="s3">'</span><span class="s1">)</span>
+<span class="s0">#%% md 
+</span><span class="s1">Exploracion de valores nulos 
+</span><span class="s0">#%% 
+</span><span class="s1">categoricos = [</span><span class="s3">'barrio'</span><span class="s2">,</span><span class="s3">'ciudad'</span><span class="s2">, </span><span class="s3">'estrato'</span><span class="s2">, </span><span class="s3">'tipo de inmueble'</span><span class="s2">, </span><span class="s3">'Detalle disponibilidad'</span><span class="s1">] </span>
+<span class="s1">numericos = [</span><span class="s3">'Area construida'</span><span class="s2">,</span><span class="s3">'Area terreno'</span><span class="s2">, </span><span class="s3">'precio'</span><span class="s1">]</span>
+
+<span class="s1">print(</span><span class="s3">f'Las variables categoricas son: </span><span class="s2">{</span><span class="s1">categoricos</span><span class="s2">}</span><span class="s3">'</span><span class="s2">, </span><span class="s3">f'</span><span class="s2">\n\n</span><span class="s3">Las variables numericas son </span><span class="s2">{</span><span class="s1">numericos</span><span class="s2">}</span><span class="s3">'</span><span class="s1">)</span>
+<span class="s0">#%% 
+</span><span class="s1">df.isnull().sum()</span>
+<span class="s0">#%% md 
+</span><span class="s1">Se evidencia que en las columnas: **Barrio** y **Datos  Adicionales**  de los cuales se decide precindir de estas columnas, ya que  no aportan mayor valor a el desarrollo de este analisis.  
+     
+</span><span class="s0">#%% 
+</span><span class="s1">df = df.drop_duplicates()</span>
+<span class="s1">df.info()</span>
+<span class="s0">#%% 
+</span><span class="s1">df = df.drop(columns=[</span><span class="s3">'Datos Adicionales'</span><span class="s2">, </span><span class="s3">'Barrio'</span><span class="s1">]</span><span class="s2">, </span><span class="s1">)</span>
+<span class="s0">#%% 
+</span><span class="s1">informe_estadistico = df.describe()</span>
+<span class="s1">informe_estadistico</span>
+<span class="s0">#%% 
+</span><span class="s1">df[</span><span class="s3">'Codigo'</span><span class="s1">] = df[</span><span class="s3">'Codigo'</span><span class="s1">].astype(</span><span class="s3">'str'</span><span class="s1">)</span>
+<span class="s0">#%% md 
+</span><span class="s1">BUsqueda de valores erroneos 
+</span><span class="s0">#%% 
+</span><span class="s1">print(df[</span><span class="s3">'Estrato'</span><span class="s1">].unique()</span><span class="s2">, </span><span class="s3">'</span><span class="s2">\n\n</span><span class="s3">'</span><span class="s1">)</span>
+<span class="s1">print(df[</span><span class="s3">'Tipo de Inmueble'</span><span class="s1">].unique()</span><span class="s2">, </span><span class="s3">'</span><span class="s2">\n\n</span><span class="s3">'</span><span class="s1">)</span>
+<span class="s1">print(df[</span><span class="s3">'Precio'</span><span class="s1">].describe())</span>
+<span class="s0">#%% md 
+</span><span class="s1">No hay valores erroneos  
+</span><span class="s0">#%% md 
+</span><span class="s1">### Identifiar valores atipicos y Graficos 
+ 
+Para la comprencion de relaciones entre variables que se relaiconene de forma directa con el precio, Se evaluaran variables como que se entiende tienen relacion con el precio de cualquier inmueble como lo son:  
+ 
+* Area Terreno 
+* Area Construida 
+* Estrato 
+* Tipo de inmueble 
+ 
+ 
+</span><span class="s0">#%% md 
+</span>
+<span class="s0">#%% 
+</span><span class="s1">plt.figure(figsize=(</span><span class="s4">10</span><span class="s2">, </span><span class="s4">6</span><span class="s1">))</span>
+<span class="s1">sns.boxplot(x=df[</span><span class="s3">'Precio'</span><span class="s1">]</span><span class="s2">, </span><span class="s1">y=df[</span><span class="s3">'Estrato'</span><span class="s1">] )</span>
+<span class="s1">plt.title(</span><span class="s3">'Boxplot de Precio'</span><span class="s1">)</span>
+<span class="s1">plt.show()</span>
+
+
+<span class="s0">#%% md 
+</span><span class="s1">## De este BoxPlot podemos concluir que: 
+ 
+### Estrato TRES: 
+ 
+**Distribución de Precios**: La mediana del precio se encuentra en el extremo inferior del rango de precios, indicando que la mayoría de los inmuebles en esta categoría tienen precios bajos. 
+ 
+**Valores Atípicos**: Hay varios valores atípicos elevados, sugiriendo que aunque la mayoría de los inmuebles tienen precios bajos, hay algunos con precios excepcionalmente altos. 
+ 
+### COMERCIAL: 
+ 
+**Distribución de Precios**: Los precios de los inmuebles comerciales están más concentrados, lo que indica una menor variabilidad en esta categoría. 
+ 
+**Valores Atípicos**: Hay algunos valores atípicos hacia los extremos, pero en general, los precios son más consistentes y no tan altos como en otras categorías. 
+ 
+### CUATRO: 
+ 
+**Distribución de Precios**: Esta categoría tiene una amplia gama de precios, con una mediana más elevada en comparación con TRES y COMERCIAL. 
+ 
+**Valores Atípicos**: Existen varios valores atípicos, lo que sugiere que algunos inmuebles en esta categoría tienen precios excepcionalmente altos. 
+ 
+### RURAL: 
+ 
+**Distribución de Precios**: Los precios en la categoría rural son muy variables, indicando una gran diversidad en el tipo de inmuebles que se incluyen bajo esta categoría. 
+ 
+**Valores Atípicos**: Numerosos valores atípicos elevados sugieren que hay propiedades rurales con precios significativamente altos. 
+ 
+### INDUSTRIAL: 
+ 
+**Distribución de Precios**: Los precios en esta categoría son bastante concentrados, lo que indica una menor variabilidad. 
+ 
+**Valores Atípicos**: Aunque la mediana y el rango intercuartil son más bajos, hay valores atípicos que indican algunos inmuebles industriales con precios altos. 
+ 
+### SEIS: 
+ 
+**Distribución de Precios**: Al igual que INDUSTRIAL, SEIS tiene una menor variabilidad en los precios. 
+ 
+**Valores Atípicos**: Aunque hay menos dispersión, hay algunos precios excepcionalmente altos. 
+ 
+### CINCO: 
+ 
+**Distribución de Precios**: Similar a SEIS, con una distribución de precios concentrada. 
+ 
+**Valores Atípicos**: Algunos valores atípicos elevados, pero menos dispersión en comparación con CUATRO y RURAL. 
+ 
+### DOS: 
+ 
+**Distribución de Precios**: Esta categoría muestra una concentración de precios similar a CINCO y SEIS. 
+ 
+**Valores Atípicos**: Hay pocos valores atípicos, lo que sugiere que los precios en esta categoría son más consistentes. 
+ 
+### UNO: 
+ 
+**Distribución de Precios**: Los precios en esta categoría están muy concentrados, con menos dispersión. 
+ 
+**Valores Atípicos**: Pocos valores atípicos indican una mayor consistencia en los precios. 
+ 
+### Observaciones Generales: 
+ 
+- Las categorías con una mayor dispersión de precios (TRES, CUATRO, y RURAL) muestran que hay una mayor diversidad en los tipos de inmuebles y sus precios. 
+- Las categorías con menor dispersión (COMERCIAL, INDUSTRIAL, SEIS, CINCO, DOS, UNO) indican una mayor consistencia en los precios de los inmuebles. 
+- La presencia de valores atípicos en casi todas las categorías sugiere que hay excepciones significativas en los precios dentro de cada categoría, que podrían ser analizadas más a fondo para entender las razones detrás de estos precios anómalos (por ejemplo, ubicaciones premium, tamaño del inmueble, etc.). 
+ 
+</span><span class="s0">#%% 
+</span><span class="s1">plt.figure(figsize=(</span><span class="s4">10</span><span class="s2">, </span><span class="s4">6</span><span class="s1">))</span>
+<span class="s1">sns.histplot(df[</span><span class="s3">'Estrato'</span><span class="s1">]</span><span class="s2">, </span><span class="s1">bins=</span><span class="s4">30</span><span class="s2">, </span><span class="s1">kde=</span><span class="s2">True, </span><span class="s1">legend=</span><span class="s2">True</span><span class="s1">)</span>
+<span class="s1">plt.title(</span><span class="s3">'Conteo por Estrato'</span><span class="s1">)</span>
+<span class="s1">plt.show()</span>
+
+<span class="s0">#%% md 
+</span>
+<span class="s0">#%% md 
+</span><span class="s1">## Analisis histograma y comparacion con Boxplot 
+ 
+### Estrato TRES: 
+ 
+**Distribución de Precios:** La mediana del precio se encuentra en el extremo inferior del rango de precios, indicando que la mayoría de los inmuebles en esta categoría tienen precios bajos. 
+**Valores Atípicos:** Hay varios valores atípicos elevados, sugiriendo que aunque la mayoría de los inmuebles tienen precios bajos, hay algunos con precios excepcionalmente altos. 
+ 
+### Estrato COMERCIAL: 
+ 
+**Distribución de Precios:** Los precios de los inmuebles comerciales están más concentrados, lo que indica una menor variabilidad en esta categoría. 
+**Valores Atípicos:** Hay algunos valores atípicos hacia los extremos, pero en general, los precios son más consistentes y no tan altos como en otras categorías. 
+ 
+### Estrato CUATRO: 
+ 
+**Distribución de Precios:** Esta categoría tiene una amplia gama de precios, con una mediana más elevada en comparación con TRES y COMERCIAL. 
+**Valores Atípicos:** Existen varios valores atípicos, lo que sugiere que algunos inmuebles en esta categoría tienen precios excepcionalmente altos. 
+ 
+### Estrato RURAL: 
+ 
+**Distribución de Precios:** Los precios en la categoría rural son muy variables, indicando una gran diversidad en el tipo de inmuebles que se incluyen bajo esta categoría. 
+**Valores Atípicos:** Numerosos valores atípicos elevados sugieren que hay propiedades rurales con precios significativamente altos. 
+ 
+### Estrato INDUSTRIAL: 
+ 
+**Distribución de Precios:** Los precios en esta categoría son bastante concentrados, lo que indica una menor variabilidad. 
+**Valores Atípicos:** Aunque la mediana y el rango intercuartil son más bajos, hay valores atípicos que indican algunos inmuebles industriales con precios altos. 
+ 
+### Estrato SEIS: 
+ 
+**Distribución de Precios:** Al igual que INDUSTRIAL, SEIS tiene una menor variabilidad en los precios. 
+**Valores Atípicos:** Aunque hay menos dispersión, hay algunos precios excepcionalmente altos. 
+ 
+### Estrato CINCO: 
+ 
+**Distribución de Precios:** Similar a SEIS, con una distribución de precios concentrada. 
+**Valores Atípicos:** Algunos valores atípicos elevados, pero menos dispersión en comparación con CUATRO y RURAL. 
+ 
+### Estrato DOS: 
+ 
+**Distribución de Precios:** Esta categoría muestra una concentración de precios similar a CINCO y SEIS. 
+**Valores Atípicos:** Hay pocos valores atípicos, lo que sugiere que los precios en esta categoría son más consistentes. 
+ 
+### Estrato UNO: 
+ 
+**Distribución de Precios:** Los precios en esta categoría están muy concentrados, con menos dispersión. 
+**Valores Atípicos:** Pocos valores atípicos indican una mayor consistencia en los precios. 
+ 
+### Observaciones Generales: 
+ 
+- Las categorías con una mayor dispersión de precios (TRES, CUATRO, y RURAL) muestran que hay una mayor diversidad en los tipos de inmuebles y sus precios. 
+- Las categorías con menor dispersión (COMERCIAL, INDUSTRIAL, SEIS, CINCO, DOS, UNO) indican una mayor consistencia en los precios de los inmuebles. 
+- La presencia de valores atípicos en casi todas las categorías sugiere que hay excepciones significativas en los precios dentro de cada categoría, que podrían ser analizadas más a fondo para entender las razones detrás de estos precios anómalos (por ejemplo, ubicaciones premium, tamaño del inmueble, etc.). 
+ 
+</span><span class="s0">#%% md 
+</span>
+<span class="s0">#%% 
+</span></pre>
+</body>
+</html>
